@@ -1,25 +1,23 @@
 # Alibaba LLM Platform GitOps Environments
 
-Desired deployment state for platform environments.
+Репозиторий с desired deployment state для окружений платформы.
 
-## Scope
-This repo owns:
-- environment overlays for `dev`, `stage`, and `prod`;
-- application deployment state;
-- image/tag rollout updates;
-- GitOps-friendly manifest layout.
+## Что Этот Репозиторий Делает
+- хранит environment overlays для `dev`, `stage`, `prod`;
+- хранит deployment state приложений;
+- хранит обновления image/tag для rollout;
+- задаёт GitOps-friendly layout манифестов.
 
-## Out of Scope
-This repo does not own:
-- cloud infrastructure provisioning;
-- Terraform modules or state;
-- application source code;
-- platform design decisions that belong to the foundation repo.
+## Что Этот Репозиторий Не Делает
+- не создаёт облачную инфраструктуру;
+- не хранит Terraform modules или Terraform state;
+- не содержит application source code;
+- не хранит platform design decisions, которые относятся к foundation repo.
 
-## Initial Structure
-- `environments/` - environment-level desired state.
-- `applications/foundation-api/base/` - common application manifests.
-- `applications/foundation-api/overlays/` - per-environment overrides.
+## Базовая Структура
+- `environments/` — desired state по окружениям.
+- `applications/foundation-api/base/` — общие манифесты приложения.
+- `applications/foundation-api/overlays/` — environment-specific overrides.
 
-## First Goal
-Prove one clean path from build output to reconciled deployment state.
+## Текущая Роль В Платформе
+Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
