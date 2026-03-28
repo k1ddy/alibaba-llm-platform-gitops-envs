@@ -13,6 +13,9 @@ resources:
   - ../../base
   - namespace.yaml
 
+patches:
+  - path: image-pull-secret-patch.yaml
+
 secretGenerator:
   - name: ai-runtime-secrets
     envs:
@@ -20,5 +23,5 @@ secretGenerator:
 
 images:
   - name: registry.example.com/alibaba-llm-ai-runtime
-    newName: ghcr.io/k1ddy/alibaba-llm-ai-runtime
+    newName: crpi-ir1o22efjphtqr94-vpc.cn-hangzhou.personal.cr.aliyuncs.com/llm-ai-runtime/alibaba-llm-ai-runtime
     newTag: main
