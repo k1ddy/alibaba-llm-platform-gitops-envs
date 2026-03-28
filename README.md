@@ -72,5 +72,25 @@ KUBECONFIG=/home/zhan/.kube/career-prep-ack.yaml \
 - не ставит Argo CD;
 - не обновляет image tag в repo автоматически.
 
+## Immutable Tag Promotion
+Для более взрослого release path `dev` overlay можно перевести с moving tag `main` на конкретный `sha-*`:
+```bash
+scripts/promote_ai_runtime_dev_tag.sh sha-816c14f
+git diff applications/ai-runtime/overlays/dev/kustomization.yaml
+```
+
+Что делает promotion-скрипт:
+- валидирует формат тега;
+- меняет только `images.newTag` в `dev` overlay;
+- делает `kubectl kustomize` smoke-check после изменения;
+- не трогает `newName`, secrets или cluster state.
+
+После этого рабочий bounded путь такой:
+```bash
+git add applications/ai-runtime/overlays/dev/kustomization.yaml
+git commit -m "Promote ai-runtime dev to sha-816c14f"
+scripts/deploy_ai_runtime_dev.sh
+```
+
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.

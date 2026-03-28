@@ -24,4 +24,4 @@ secretGenerator:
 images:
   - name: registry.example.com/alibaba-llm-ai-runtime
     newName: crpi-ir1o22efjphtqr94-vpc.cn-hangzhou.personal.cr.aliyuncs.com/llm-ai-runtime/alibaba-llm-ai-runtime
-    newTag: main
+    newTag: sha-816c14f
