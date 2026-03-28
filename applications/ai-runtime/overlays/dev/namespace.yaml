@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ai-runtime-dev
+  labels:
+    app.kubernetes.io/part-of: alibaba-llm-platform
+    app.kubernetes.io/environment: dev

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-runtime-config
+
+data:
+  AI_RUNTIME_LLM_PROVIDER: stub
+  AI_RUNTIME_SESSION_HISTORY_MAX_MESSAGES: "12"
+  AI_RUNTIME_RETRIEVAL_TOP_K: "2"
+  AI_RUNTIME_KNOWLEDGE_SOURCE_DIR: /app/knowledge/source
+  AI_RUNTIME_TOOL_AUDIT_LOG_PATH: /app/runtime_data/audit/tool-events.jsonl
+  AI_RUNTIME_OBSERVABILITY_LOG_PATH: /app/runtime_data/observability/runtime-events.jsonl

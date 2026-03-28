@@ -15,9 +15,28 @@
 - не хранит platform design decisions, которые относятся к foundation repo.
 
 ## Базовая Структура
-- `environments/` — desired state по окружениям.
-- `applications/foundation-api/base/` — общие манифесты приложения.
-- `applications/foundation-api/overlays/` — environment-specific overrides.
+- `applications/ai-runtime/base/` — базовые манифесты runtime.
+- `applications/ai-runtime/overlays/dev/` — `dev`-override для runtime.
+- `environments/dev/` — точка входа для `kubectl kustomize` и будущего GitOps sync.
+
+## Что Уже Есть В Репозитории
+Сейчас в repo подготовлен `GitOps deployment skeleton v1` для `ai-runtime`:
+- `Deployment`
+- `Service`
+- `ConfigMap`
+- `Namespace` для `dev`
+- `Kustomize` base/overlay structure
+
+## Как Проверять Локально
+```bash
+kubectl kustomize applications/ai-runtime/overlays/dev
+kubectl kustomize environments/dev
+```
+
+Важно:
+- image path пока placeholder;
+- реальный deploy в live `ACK` пока не делаем;
+- publish в registry и Argo CD wiring будут отдельным следующим блоком.
 
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
