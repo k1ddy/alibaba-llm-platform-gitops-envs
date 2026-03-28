@@ -1,1 +1,3 @@
 .DS_Store
+applications/ai-runtime/overlays/*/.env.runtime.secrets
+!applications/ai-runtime/overlays/*/.env.runtime.secrets.example

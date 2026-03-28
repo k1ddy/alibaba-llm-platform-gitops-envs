@@ -22,6 +22,9 @@ spec:
           envFrom:
             - configMapRef:
                 name: ai-runtime-config
+            - secretRef:
+                name: ai-runtime-secrets
+                optional: true
           volumeMounts:
             - name: runtime-data
               mountPath: /app/runtime_data
