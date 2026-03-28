@@ -115,5 +115,50 @@ scripts/set_ai_runtime_dev_provider.sh dashscope_openai_compatible qwen-plus
 - в этом проекте рабочим оказался путь вида `https://<workspace-host>/compatible-mode/v1`;
 - строку endpoint из консоли лучше подтверждать preflight-проверкой до deploy.
 
+## Demo Runbook
+Ниже — короткий повторяемый сценарий для показа платформы без вспоминания ручных шагов.
+
+### 1. Проверить текущее live-состояние
+```bash
+scripts/verify_ai_runtime_dev_live.sh
+```
+
+Что даёт:
+- `healthz`;
+- один live `runtime turn`;
+- проверку `model_provider` и `model_name` против текущего overlay state.
+
+### 2. Переключить `dev` на live provider
+```bash
+export AI_RUNTIME_ACR_USERNAME='centr.ag3nt@gmail.com'
+export AI_RUNTIME_ACR_PASSWORD='<acr-password>'
+export AI_RUNTIME_LLM_API_KEY='<model-studio-api-key>'
+
+scripts/set_ai_runtime_dev_provider.sh \
+  dashscope_openai_compatible \
+  qwen-plus \
+  https://ws-7jectxvcn2b9g3rj.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1
+
+scripts/deploy_ai_runtime_dev.sh
+scripts/verify_ai_runtime_dev_live.sh
+```
+
+### 3. Быстрый rollback в `stub`
+```bash
+export AI_RUNTIME_ACR_USERNAME='centr.ag3nt@gmail.com'
+export AI_RUNTIME_ACR_PASSWORD='<acr-password>'
+
+scripts/set_ai_runtime_dev_provider.sh stub
+scripts/deploy_ai_runtime_dev.sh
+scripts/verify_ai_runtime_dev_live.sh
+```
+
+### 4. Что показывать в демо
+- `provider mode`: `stub` или `dashscope_openai_compatible`;
+- `immutable image tag`: сейчас `sha-816c14f`;
+- live `healthz`;
+- live `runtime turn`;
+- разницу между `preflight`, `deploy`, `verify`, `rollback`.
+
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
