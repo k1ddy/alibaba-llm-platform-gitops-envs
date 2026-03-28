@@ -14,7 +14,6 @@ fi
 
 TARGET_PROVIDER="$1"
 TARGET_MODEL="${2:-qwen-plus}"
-TARGET_BASE_URL="${3:-https://dashscope.aliyuncs.com/compatible-mode/v1}"
 
 case "$TARGET_PROVIDER" in
   stub|dashscope_openai_compatible) ;;
@@ -27,6 +26,7 @@ esac
 CURRENT_PROVIDER="$(awk -F': ' '/AI_RUNTIME_LLM_PROVIDER:/ {print $2; exit}' "$PATCH_FILE")"
 CURRENT_MODEL="$(awk -F': ' '/AI_RUNTIME_LLM_MODEL:/ {print $2; exit}' "$PATCH_FILE")"
 CURRENT_BASE_URL="$(awk -F': ' '/AI_RUNTIME_LLM_BASE_URL:/ {print $2; exit}' "$PATCH_FILE")"
+TARGET_BASE_URL="${3:-$CURRENT_BASE_URL}"
 
 TEMP_SECRET_CREATED="false"
 

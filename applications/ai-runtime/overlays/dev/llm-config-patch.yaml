@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: ai-runtime-config
 data:
-  AI_RUNTIME_LLM_PROVIDER: stub
+  AI_RUNTIME_LLM_PROVIDER: dashscope_openai_compatible
   AI_RUNTIME_LLM_MODEL: qwen-plus
-  AI_RUNTIME_LLM_BASE_URL: https://dashscope.aliyuncs.com/compatible-mode/v1
+  AI_RUNTIME_LLM_BASE_URL: https://ws-7jectxvcn2b9g3rj.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1

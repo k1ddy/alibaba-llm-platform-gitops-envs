@@ -101,6 +101,7 @@ scripts/set_ai_runtime_dev_provider.sh dashscope_openai_compatible qwen-plus
 
 Что делает этот скрипт:
 - меняет только `AI_RUNTIME_LLM_PROVIDER`, `AI_RUNTIME_LLM_MODEL`, `AI_RUNTIME_LLM_BASE_URL` в `llm-config-patch.yaml`;
+- если `base_url` не передан, сохраняет текущее значение из overlay;
 - проверяет `kubectl kustomize` после изменения;
 - не трогает tag, secret или cluster state.
 
@@ -108,6 +109,11 @@ scripts/set_ai_runtime_dev_provider.sh dashscope_openai_compatible qwen-plus
 - если `dev` переключён на `dashscope_openai_compatible`, то `scripts/deploy_ai_runtime_dev.sh` требует `AI_RUNTIME_LLM_API_KEY`;
 - без ключа deploy прерывается до `kubectl apply`, то есть fail-fast и без drift в кластере;
 - с ключом deploy сначала делает live preflight через `scripts/validate_model_studio_key.sh`, и только потом доходит до cluster apply.
+
+Практический вывод для workspace-specific ключей:
+- ориентируйся на реально проверяемый OpenAI-compatible endpoint;
+- в этом проекте рабочим оказался путь вида `https://<workspace-host>/compatible-mode/v1`;
+- строку endpoint из консоли лучше подтверждать preflight-проверкой до deploy.
 
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
