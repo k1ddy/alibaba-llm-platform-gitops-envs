@@ -34,9 +34,10 @@ kubectl kustomize environments/dev
 ```
 
 Важно:
-- image path пока placeholder;
-- реальный deploy в live `ACK` пока не делаем;
-- publish в registry и Argo CD wiring будут отдельным следующим блоком.
+- `dev` overlay уже указывает на `ghcr.io/k1ddy/alibaba-llm-ai-runtime:main`;
+- GitOps пока использует moving tag только как временный low-friction path;
+- позже надо перейти на immutable `sha-*` tag update flow;
+- реальный deploy в live `ACK` пока не делаем.
 
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.

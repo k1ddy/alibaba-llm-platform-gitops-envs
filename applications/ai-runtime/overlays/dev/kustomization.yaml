@@ -15,4 +15,5 @@ resources:
 
 images:
   - name: registry.example.com/alibaba-llm-ai-runtime
-    newTag: dev-placeholder
+    newName: ghcr.io/k1ddy/alibaba-llm-ai-runtime
+    newTag: main
