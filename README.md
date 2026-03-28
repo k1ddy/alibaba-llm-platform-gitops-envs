@@ -92,5 +92,21 @@ git commit -m "Promote ai-runtime dev to sha-816c14f"
 scripts/deploy_ai_runtime_dev.sh
 ```
 
+## Provider Mode Switch
+Model boundary для `dev` теперь тоже управляется declarative overlay state, а не ручным редактированием base config:
+```bash
+scripts/set_ai_runtime_dev_provider.sh stub
+scripts/set_ai_runtime_dev_provider.sh dashscope_openai_compatible qwen-plus
+```
+
+Что делает этот скрипт:
+- меняет только `AI_RUNTIME_LLM_PROVIDER`, `AI_RUNTIME_LLM_MODEL`, `AI_RUNTIME_LLM_BASE_URL` в `llm-config-patch.yaml`;
+- проверяет `kubectl kustomize` после изменения;
+- не трогает tag, secret или cluster state.
+
+Что важно для live provider:
+- если `dev` переключён на `dashscope_openai_compatible`, то `scripts/deploy_ai_runtime_dev.sh` требует `AI_RUNTIME_LLM_API_KEY`;
+- без ключа deploy прерывается до `kubectl apply`, то есть fail-fast и без drift в кластере.
+
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.

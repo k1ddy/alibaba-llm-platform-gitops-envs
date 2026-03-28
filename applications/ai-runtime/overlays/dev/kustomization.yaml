@@ -15,6 +15,7 @@ resources:
 
 patches:
   - path: image-pull-secret-patch.yaml
+  - path: llm-config-patch.yaml
 
 secretGenerator:
   - name: ai-runtime-secrets

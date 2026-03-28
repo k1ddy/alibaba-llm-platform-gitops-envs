@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ai-runtime-config
+data:
+  AI_RUNTIME_LLM_PROVIDER: stub
+  AI_RUNTIME_LLM_MODEL: qwen-plus
+  AI_RUNTIME_LLM_BASE_URL: https://dashscope.aliyuncs.com/compatible-mode/v1
