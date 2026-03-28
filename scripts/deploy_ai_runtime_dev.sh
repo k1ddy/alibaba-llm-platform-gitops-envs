@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OVERLAY_DIR="$ROOT_DIR/applications/ai-runtime/overlays/dev"
 LLM_PATCH_FILE="$OVERLAY_DIR/llm-config-patch.yaml"
+VALIDATE_MODEL_STUDIO_SCRIPT="$ROOT_DIR/scripts/validate_model_studio_key.sh"
 NAMESPACE="ai-runtime-dev"
 DEPLOYMENT="ai-runtime-dev"
 SERVICE="ai-runtime-dev"
@@ -72,6 +73,10 @@ case "$DESIRED_PROVIDER" in
       echo "AI_RUNTIME_LLM_API_KEY is required when dev provider is dashscope_openai_compatible" >&2
       exit 1
     fi
+    AI_RUNTIME_LLM_MODEL="$DESIRED_MODEL" \
+      AI_RUNTIME_LLM_BASE_URL="$(awk -F': ' '/AI_RUNTIME_LLM_BASE_URL:/ {print $2; exit}' "$LLM_PATCH_FILE")" \
+      AI_RUNTIME_LLM_API_KEY="$LLM_API_KEY_VALUE" \
+      "$VALIDATE_MODEL_STUDIO_SCRIPT" >/tmp/ai-runtime-dev-model-validation.json
     ;;
   *)
     echo "unsupported provider in $LLM_PATCH_FILE: $DESIRED_PROVIDER" >&2
@@ -152,6 +157,12 @@ echo
 echo "provider:"
 echo "$DESIRED_PROVIDER"
 echo
+if [ "$DESIRED_PROVIDER" = "dashscope_openai_compatible" ]; then
+  echo
+  echo "model validation:"
+  cat /tmp/ai-runtime-dev-model-validation.json
+  echo
+fi
 echo
 echo "runtime turn:"
 cat "$TURN_FILE"

@@ -106,7 +106,8 @@ scripts/set_ai_runtime_dev_provider.sh dashscope_openai_compatible qwen-plus
 
 Что важно для live provider:
 - если `dev` переключён на `dashscope_openai_compatible`, то `scripts/deploy_ai_runtime_dev.sh` требует `AI_RUNTIME_LLM_API_KEY`;
-- без ключа deploy прерывается до `kubectl apply`, то есть fail-fast и без drift в кластере.
+- без ключа deploy прерывается до `kubectl apply`, то есть fail-fast и без drift в кластере;
+- с ключом deploy сначала делает live preflight через `scripts/validate_model_studio_key.sh`, и только потом доходит до cluster apply.
 
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
