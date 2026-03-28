@@ -51,5 +51,26 @@ kubectl kustomize environments/dev
 - для новых `ACR Personal Edition` инстансов нужен `imagePullSecrets`;
 - для live `ACK cn-hangzhou` нужно использовать `VPC` endpoint вида `crpi-...-vpc.cn-hangzhou.personal.cr.aliyuncs.com`, а не внешний `GHCR` path.
 
+## Repeatable Dev Deploy
+Для текущего bounded demo-path есть один entrypoint:
+```bash
+export AI_RUNTIME_ACR_USERNAME='centr.ag3nt@gmail.com'
+export AI_RUNTIME_ACR_PASSWORD='<acr-password>'
+KUBECONFIG=/home/zhan/.kube/career-prep-ack.yaml \
+  scripts/deploy_ai_runtime_dev.sh
+```
+
+Что делает скрипт:
+- проверяет preflight для `kubectl`, `curl`, `mktemp`;
+- создаёт или обновляет `acr-pull-secret`;
+- генерирует временный `.env.runtime.secrets`;
+- делает `kustomize -> dry-run -> apply -> rollout`;
+- выполняет live `healthz` и один `runtime turn`.
+
+Что скрипт сознательно не делает:
+- не коммитит секреты;
+- не ставит Argo CD;
+- не обновляет image tag в repo автоматически.
+
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
