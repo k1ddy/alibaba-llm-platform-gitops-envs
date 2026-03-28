@@ -45,10 +45,11 @@ kubectl kustomize environments/dev
 Важно:
 - `.env.runtime.secrets` не коммитится;
 - `.env.runtime.secrets.example` хранит только placeholder;
-- `dev` overlay уже указывает на `ghcr.io/k1ddy/alibaba-llm-ai-runtime:main`;
+- `dev` overlay сейчас указывает на `ghcr.io/k1ddy/alibaba-llm-ai-runtime:main`;
 - GitOps пока использует moving tag только как временный low-friction path;
 - позже надо перейти на immutable `sha-*` tag update flow;
-- реальный deploy в live `ACK` пока не делаем.
+- для live `ACK cn-hangzhou` текущий путь через `GHCR` показал себя как ненадёжный image pull route;
+- для второго deploy attempt надо переключить `images.newName` на `ACR` path того же runtime image.
 
 ## Текущая Роль В Платформе
 Этот repo отвечает за reconciled deployment state, а не за облачную инфраструктуру и не за runtime-код.
